@@ -1,12 +1,18 @@
 
+"use strict";
 //simple single linked list
 
 let node = function node() {
-            
-    let body = "";
-    let next = {};
     
+    //private
+    var body = "";
+    var next = {};
+    
+    //public
     return {
+        
+        body,
+        next,
         
         init(b,n) {
             
@@ -18,94 +24,58 @@ let node = function node() {
             return this;
         },
         
-        getBody() {
+        getBody(){
+          
             return body;
-        },
-        
-        getNext (){
-            return next;
         },
     };
 };
 
 
-let node = function node() {
+let linkedlist = function linkedlist() {
     
-    let tail = node().init("Tail", null);
-    let head = node().init("Head", tail);
+    var tail = node().init("Tail", null);
+    var head = node().init("Head", tail);
     
     return {
     
         traverse() {
          
-            let tmp = head;
+            var tmp = head;
         
             do {
-                console.log(tmp.body + "   " + tmp.getBody() );
+                console.log(tmp.getBody() );
                 tmp = tmp.next;
             } while(tmp)
         },
         
-        insert(n) 
-        
-        
-    };
-    
-    
-}
-
-var linkedList = (function() {
-    
-    var head = node(),
-        tail = node();
-        
-    head.init("Head", tail);
-    tail.init("Tail", null );
-    
-    function traverse(){
-        
-        var tmp = head;
-        
-        do {
-            console.log(tmp.body + "   " + tmp.getBody() );
-            tmp = tmp.next;
-        } while(tmp)
-    };
-    
-    function insert( node ){
-     
-        
-        if(!node){
-            alert("Can only add a node!")
-            return;
-        } else {
-         
-            var tmp = head;
+        insertAtEnd(n)  {
             
-            while(tmp.next.next){
+            console.log(Object.prototype.hasOwnProperty.call(n, 'body'));
+        
+            if( Object.prototype.toString.call(n, 'body') ){
+                
+                var tmp = head;
+                
+                while(tmp.next.next){
                     tmp = tmp.next;
                 }
                 console.log("inserting node...")
                 node.next = tmp.next;
                 tmp.next = node;
+            } else {
+            
+                console.log('That doesn\'t seem to be a node you\'re trying to add to the linked list..');
             }
-        
+        }
     };
-    
-    return {
-      
-        traverse: traverse,
-        insert: insert,
-        
-    };
-    
+};
 
-});
-
-testlist = linkedList();
+let testlist = Object.create(linkedlist());
 
 testlist.traverse();
 
-testlist.insert( node().init("some Thing", null) );
+
+testlist.insertAtEnd( node().init("some Thing", null) );
 
 testlist.traverse();
