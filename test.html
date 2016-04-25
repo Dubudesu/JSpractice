@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>linked list</title>
+
+    <script>
+    
+        let node = function node() {
+            
+            let body = "";
+            let next = {};
+            
+            let PrivateLog = function(){
+            
+                console.log( body);
+            };
+            
+            
+            
+            return {
+                
+                init(b,n) {
+                    
+                    body = b;
+                    if(n){
+                        next = n;
+                    } else { next = null; }
+                    
+                    PrivateLog();
+                    
+                    return this;
+                },
+                
+                getBody() {
+                    return body;
+                },
+                
+                getNext (){
+                    return next;
+                },
+            };
+        };
+        
+        let myNode = node().init("titties", null);
+        
+        console.log( Object.prototype.toString.call(myNode) );
+        console.log( Object.prototype.toString.apply(myNode) );
+        
+        alert(myNode.getBody());
+        alert(myNode.body);
+        
+        myNode.PrivateLog();
+        
+
+    </script>
+    
+  </head>
+  <body>
+    <!-- page content -->
+  </body>
+</html>
