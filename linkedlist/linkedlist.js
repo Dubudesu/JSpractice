@@ -1,81 +1,178 @@
 
 "use strict";
-//simple single linked list
 
 let node = function node() {
     
     //private
-    var body = "";
+    var body = {};
     var next = {};
+    var prev = {};
     
     //public
     return {
         
-        body,
-        next,
-        
-        init(b,n) {
+        init(b,n,p) {
             
-            body = b;
+            if(b){
+                body = b;
+            } else {
+                return
+            }
+            
             if(n){
                 next = n;
-            } else { next = null; }
+            } else { 
+                next = null; 
+            }
+            
+            if(p){
+                prev = p;
+            } else { 
+                prev = null; 
+            }
             
             return this;
         },
-        
-        getBody(){
+        getBody() {
           
             return body;
         },
+        setBody(b) {
+        
+            body = b;
+        },
+        getNext() {
+          
+            return next;
+        },
+        setNext(n) {
+          
+            next = n;
+        },
+        getPrev() {
+        
+            return prev;
+        },
+        setPrev(p) {
+         
+            prev = p;
+        }
+        
+        
     };
 };
 
-
-let linkedlist = function linkedlist() {
+let linkedList = function() {
+ 
+    let head = node();
+    let tail = node();
     
-    var tail = node().init("Tail", null);
-    var head = node().init("Head", tail);
+    head.init("Head", tail, null);
+    tail.init("Tail", null, head);
     
-    return {
-    
-        traverse() {
-         
-            var tmp = head;
+    let insert = function(node, next, prev) {
+            
+        node.setNext( next);
+        node.setPrev( prev );
         
-            do {
-                console.log(tmp.getBody() );
-                tmp = tmp.next;
-            } while(tmp)
+        next.setPrev( node )
+        prev.setNext( node );
+    }
+    
+    let isEmpty = function(){
+     
+        if(head.getNext().getBody() === "Tail" ){
+            return true;
+        } else { 
+            return false; 
+        }
+    }
+    
+    
+    return{
+        
+        traverse() {
+            
+            var tmp = head;
+            var o = [];
+            
+            while(tmp){
+                if(tmp.getBody() !== "Head" && tmp.getBody() !== "Tail"){
+                    console.log( tmp.getBody());
+                }
+                o.push(tmp.getBody() );
+                tmp = tmp.getNext();
+            };
+            
+            console.log(" ");
+            
+            return o;
         },
         
-        insertAtEnd(n)  {
+        find(s) {
             
-            console.log(Object.prototype.hasOwnProperty.call(n, 'body'));
+        },
         
-            if( Object.prototype.toString.call(n, 'body') ){
-                
-                var tmp = head;
-                
-                while(tmp.next.next){
-                    tmp = tmp.next;
-                }
-                console.log("inserting node...")
-                node.next = tmp.next;
-                tmp.next = node;
+        remove(n) {
+            
+        },
+        
+        insertAtTail(s) {
+            
+            let tmp = node().init(s);
+            
+            insert(tmp, tail, tail.getPrev() );
+            
+        },
+        
+        insertAtHead(s) {
+            
+            let tmp = node().init(s);
+            
+            insert(tmp, head.getNext(), head);
+        },
+        
+        insertSorted(n) {
+            
+            var nodeToAdd = node().init(n);
+            
+            if( isEmpty() ){
+             
+                insert(nodeToAdd, tail, head);
+                return true;
             } else {
             
-                console.log('That doesn\'t seem to be a node you\'re trying to add to the linked list..');
+                let tmp = head.getNext();
+                while( tmp ) {
+                
+                    if( (nodeToAdd.getBody() <= tmp.getBody() ) || ( tmp.getNext() === null ) ){
+                        
+                        insert(nodeToAdd, tmp, tmp.getPrev() );
+                        return true;
+                    } else { 
+                    
+                        tmp = tmp.getNext();
+                    }
+                }
+                return false;
             }
-        }
-    };
+        },
+    } //end return
 };
 
-let testlist = Object.create(linkedlist());
-
-testlist.traverse();
 
 
-testlist.insertAtEnd( node().init("some Thing", null) );
+let L = linkedList();
 
-testlist.traverse();
+L.traverse();
+L.insertAtTail("one");
+L.traverse();
+
+L.insertAtTail("two");
+L.insertAtTail("three");
+L.traverse();
+
+L.insertSorted("four");
+L.insertSorted("five");
+L.insertSorted("six");
+L.traverse();
